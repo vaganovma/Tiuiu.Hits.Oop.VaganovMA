@@ -1,0 +1,30 @@
+@* ProductCard.razor *@
+<div class="product-card">
+    <img src="@Product.ImageUrl" alt="@Product.Name" />
+    <h3>@Product.Name</h3>
+    <p>@Product.Description</p>
+    <div class="price">@Product.Price.ToString("C")</div>
+    
+    @if (Product is ClothingProduct clothing)
+    {
+        <div class="details">
+            <span>Размер: @clothing.Size</span>
+            <span>Цвет: @clothing.Color</span>
+        </div>
+    }
+    
+    <button @onclick="AddToCart" class="btn btn-primary">
+        Добавить в корзину
+    </button>
+</div>
+
+@code {
+    [Parameter] public Product Product { get; set; } = null!;
+    [Inject] public ShoppingCart Cart { get; set; } = null!;
+    
+    private void AddToCart()
+    {
+        Cart.AddItem(Product);
+        // Можно добавить уведомление через события
+    }
+}
